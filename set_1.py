@@ -126,6 +126,36 @@ for ind in range(key_size):
 
 
 ##
-# Challenge 7 : TODO
+# Challenge 7 : AES-ECB
 ##
+
+from Crypto.Cipher import AES
+
+aes = AES.new("YELLOW SUBMARINE", AES.MODE_ECB, "YELLOW SUBMARINE")
+
+with open("inputs/7.txt", "r") as f:
+	data = base64.b64decode(f.read().replace('\n',''))
+
+dec = aes.decrypt(data)
+
+
+##
+# Challenge 8 : AES - not finished
+##
+
+from collections import defaultdict
+
+with open("inputs/8.txt", "r") as f:
+	data = map(lambda x:x.decode('hex'), f.read().split('\n')[:-1])
+
+# For each cipher, get the most frequent bytes appearance
+stats = {e:defaultdict(lambda :0) for e in range(len(data))}
+for e,d in enumerate(data):
+	for c in range(len(d)/16):
+		stats[e][d[c:c+16]] += 1
+
+ord_stats = sorted(stats, key=lambda x:max(stats[x].values()))
+
+# This simple statistical analysis of the most frequent bytes does not work...
+
 
